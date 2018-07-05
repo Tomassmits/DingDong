@@ -3,7 +3,7 @@
 **/
 var fs = require('fs');
 if (!fs.existsSync('./firebase_settings.json')) {
-    console.log("Please create a firebase_settings.json file.")
+    console.log("Please create a firebase_settings.json file. Check firebase_settings.json.template for more information.")
     process.exit()
 }
 
