@@ -1,3 +1,12 @@
+/**
+    Preparations
+**/
+var fs = require('fs');
+if (!fs.existsSync('./firebase_settings.json')) {
+    console.log("Please create a firebase_settings.json file.")
+    process.exit()
+}
+
 var firebase = require('firebase');
 var firebaseSettings = require('./firebase_settings.json');
 
