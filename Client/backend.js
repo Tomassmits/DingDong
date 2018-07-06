@@ -6,25 +6,39 @@ if (!fs.existsSync('./firebase_settings.json')) {
 var firebase = require('firebase');
 var firebaseSettings = require('./firebase_settings.json');
 
-firebase.initializeApp(firebaseSettings);
-
 class Backend {
     constructor() {
-        this.mDbRef;
+        console.log('Initializing Firebase app.');
+        firebase.initializeApp(firebaseSettings);
+        this.mDbRef = firebase.app().database().ref();
+        this.mGongEnabled = false;
+    }
+
+    setDeviceId( id ) {
+        console.log('Identifying with Firebase as device \'' + id + '\'.');
+        this.mDeviceId = id
     }
 
     startListen() {
-        var ref = firebase.app().database().ref();
-        ref.on('value', function (snap) {
-            console.log( 'Data changed: ' + snap.val()['blabla']); // Keep the local user object synced with the Firebase userRef
-        /*    snap.forEach(function (childSnap) {
-                console.log('user', childSnap.val());
-            });*/
+        console.log('Starting configuration listener.');
+        this.mDbRef.child('conf').child(this.mDeviceId).on('value', function (snap) {
+            instance.setGongEnabled( snap.val()['gong'] === true ? true : false );
         });
+    }
+
+    setGongEnabled( enabled ) {
+        if( this.mGongEnabled !== enabled ) {
+            this.mGongEnabled = enabled;
+            console.log("Config::Gong changed: " + enabled);
+        }
+    }
+
+    getGongEnabled() {
+        return this.mGongEnabled;
     }
 }
 
 const instance = new Backend();
-Object.freeze(instance);
+//Object.freeze(instance);
 
 module.exports = instance;
