@@ -10,7 +10,9 @@ class Backend {
     constructor() {
         console.log('Initializing Firebase app.');
         firebase.initializeApp(firebaseSettings);
+
         this.mDbRef = firebase.app().database().ref();
+
         this.mGongEnabled = false;
     }
 
@@ -29,7 +31,7 @@ class Backend {
     setGongEnabled( enabled ) {
         if( this.mGongEnabled !== enabled ) {
             this.mGongEnabled = enabled;
-            console.log("Config::Gong changed: " + enabled);
+            console.log("Config::Gong: " + enabled);
         }
     }
 

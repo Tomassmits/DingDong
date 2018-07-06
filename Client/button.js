@@ -1,12 +1,26 @@
 //var gpio = require....
+var timers = require('timers');
 
 class Button {
     constructor() {
-        // TODO
+        this.mPin = -1;
+    }
+
+    setPin(pin) {
+        this.mPin = pin;
     }
 
     startListen() {
+        this.TESTbuttonPressInterval();
         // TODO: Start listening here
+    }
+
+    setCallback(callback) {
+        this.mCallback = callback;
+    }
+
+    TESTbuttonPressInterval() {
+        timers.setInterval(this.mCallback, 2000);
     }
 }
 
