@@ -28,6 +28,10 @@ class Backend {
         });
     }
 
+    sendEvent(event) {
+        return this.mDbRef.child('events').push({'image' : 'false', 'timestamp': ''}).key;
+    }
+
     setGongEnabled( enabled ) {
         if( this.mGongEnabled !== enabled ) {
             this.mGongEnabled = enabled;
