@@ -13,7 +13,7 @@ class Backend {
 
         this.mDbRef = firebase.app().database().ref();
 
-        this.mGongEnabled = false;
+        this.mBellEnabled = false;
     }
 
     setDeviceId( id ) {
@@ -24,23 +24,23 @@ class Backend {
     startListen() {
         console.log('Starting configuration listener.');
         this.mDbRef.child('conf').child(this.mDeviceId).on('value', function (snap) {
-            instance.setGongEnabled( snap.val()['gong'] === true ? true : false );
+            instance.setBellEnabled( snap.val()['bell'] === true ? true : false );
         });
     }
 
     sendEvent(event) {
-        return this.mDbRef.child('events').push({'image' : 'false', 'timestamp': ''}).key;
+        return this.mDbRef.child('events').push({'image' : false, 'timestamp': (new Date()).getTime()}).key;
     }
 
-    setGongEnabled( enabled ) {
-        if( this.mGongEnabled !== enabled ) {
-            this.mGongEnabled = enabled;
-            console.log("Config::Gong: " + enabled);
+    setBellEnabled( enabled ) {
+        if( this.mBellEnabled !== enabled ) {
+            this.mBellEnabled = enabled;
+            console.log("Config::Bell: " + enabled);
         }
     }
 
-    getGongEnabled() {
-        return this.mGongEnabled;
+    getBellEnabled() {
+        return this.mBellEnabled;
     }
 }
 
