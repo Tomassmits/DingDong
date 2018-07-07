@@ -8,7 +8,7 @@ It uses Firebase for push notifications and to store settings of the doorbell, s
 ## Installing the client on a Raspbian RPi
 Install node and npm (although it's probably best to [manually install npm and node](#issues-with-npm)).:
 ```
-sudo apt install nodejs npm
+sudo apt install nodejs npm pigpio
 ```
 In the `Client` directory, install npm dependencies. Be sure to grab some coffee after you've started this because if it runs (see Notes below), it will take quite some time to complete:
 ```

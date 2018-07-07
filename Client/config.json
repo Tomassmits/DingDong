@@ -1,6 +1,6 @@
 {
   "deviceId": "db-1",
-  "buttonPin": 18,
-  "ledPin": 20,
-  "bellPin" : 21
+  "buttonPin": 14,
+  "ledPin": 15,
+  "bellPin" : 18
 }

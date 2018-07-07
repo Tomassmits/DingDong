@@ -1,5 +1,5 @@
 {
-  "name": "node",
+  "name": "dingdong",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "firebase": "^5.2.0"
+    "firebase": "^5.2.0",
+    "pigpio": "^1.1.0"
   }
 }

@@ -1,5 +1,7 @@
-//var gpio = require....
+var Gpio = require('pigpio').Gpio;
 var timers = require('timers');
+
+const bounceTimeout = 50000;    // 50ms
 
 class Button {
     constructor() {
@@ -11,16 +13,22 @@ class Button {
     }
 
     startListen() {
-        this.TESTbuttonPressInterval();
-        // TODO: Start listening here
+        var buttonGpio = new Gpio(this.mPin, {
+            mode: Gpio.INPUT,
+            pullUpDown: Gpio.PUD_UP,
+            alert: true
+          });
+
+        buttonGpio.glitchFilter(bounceTimeout);
+
+        buttonGpio.on('alert', (level, tick) => {
+            this.mCallback(level, tick);
+        });
+
     }
 
     setCallback(callback) {
         this.mCallback = callback;
-    }
-
-    TESTbuttonPressInterval() {
-        timers.setInterval(this.mCallback, 2000);
     }
 }
 
