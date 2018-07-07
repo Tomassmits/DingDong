@@ -1,29 +1,30 @@
-//var gpio = require....
+var Gpio = require('pigpio').Gpio;
 
 const cFadeFreq = 100;  // 100 Hz
+
+var outLed;
 
 class Led {
     constructor() {
         this.mPin = -1;
-        this.mDuty = 50;    // 50 %
-        this.mFreq = 2;     // 2 Hz
+        this.mBrightness = 50;    // 50 %
     }
 
     setPin(pin) {
         this.mPin = pin;
+        outLed = new Gpio(pin, {mode: Gpio.OUTPUT})
     }
 
-    setPwm(duty, frequency) {
-        this.mDuty = duty;
-        this.mFreq = frequency;
-        // TODO: Set the provided PWM to GPIO
+    setBrightness(brightness) {
+        this.mBrightness = brightness;
+        outLed.pwmWrite(this.mDuty);
     }
 
     fadein() {
-        this.setPwm(0, cFadeFreq);
+        this.setPwm(0);
         // TODO: Set fade-in pwm settings
         // TODO: fadein using PWM :)
-        this.setPwm(this.mDuty, this.mFreq);
+        this.setPwm(this.mBrightness);
     }
 
     blink(duration, leaveState) {

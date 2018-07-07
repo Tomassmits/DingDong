@@ -1,5 +1,4 @@
 var Gpio = require('pigpio').Gpio;
-var timers = require('timers');
 
 const bounceTimeout = 50000;    // 50ms
 
