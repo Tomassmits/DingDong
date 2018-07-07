@@ -1,8 +1,7 @@
 var Gpio = require('pigpio').Gpio;
 
-const cFadeFreq = 100;  // 100 Hz
-
 var outLed;
+var doBlink = false;
 
 class Led {
     constructor() {
@@ -21,14 +20,29 @@ class Led {
     }
 
     fadein() {
-        this.setPwm(0);
-        // TODO: Set fade-in pwm settings
-        // TODO: fadein using PWM :)
-        this.setPwm(this.mBrightness);
+        var brightness = 0;
+        var fadeInterval = setInterval( function(aim) {
+            if( brightness > aim ) {
+                clearInterval(fadeInterval);
+            }
+            outLed.pwmWrite(brightness++);
+        }, 20, this.mBrightness);
     }
 
-    blink(duration, leaveState) {
-        // TODO: Start PWM signal for provided duration. Leave LED in state provided as leaveState.
+    blink(duration, speed, lowState, highState, leaveState) {
+        var state = true;
+        doBlink = true;
+        outLed.pwmWrite(lowState);
+        var blinkInterval = setInterval( function() {
+            if( doBlink === true ) outLed.pwmWrite(state ? highState : lowState);
+            state = !state;
+        }, speed);
+
+        setTimeout( function() {
+            doBlink = false;
+            clearInterval(blinkInterval);
+            outLed.pwmWrite(leaveState);
+        }, duration);
     }
 }
 

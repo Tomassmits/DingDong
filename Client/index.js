@@ -23,8 +23,7 @@ var eventId;
 function onButtonPressed(level, tick) {
     if( level == 0 ) {
         startTick = tick;
-        // TODO: buttonLed.blink();
-        buttonLed.setBrightness(50);
+        buttonLed.blink(3000, 400, 0, 100, 100);
 
         eventId = backend.sendEvent('x');
         console.log('onButtonPressed. EventID: ', eventId);
@@ -34,7 +33,7 @@ function onButtonPressed(level, tick) {
         // TODO: backend.setEventImageAvailable(eventId);
     } else {
         console.log('onButtonReleased. EventID: ', eventId);
-        buttonLed.setBrightness(100);
+        //buttonLed.setBrightness(100);
         var duration = (tick >> 0) - (startTick >> 0);  // in microSeconds.
         // TODO: backend.setButtonDuration(eventId, duration);
     }
