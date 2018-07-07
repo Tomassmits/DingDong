@@ -17,7 +17,7 @@ class Led {
 
     setBrightness(brightness) {
         this.mBrightness = brightness;
-        outLed.pwmWrite(this.mDuty);
+        outLed.pwmWrite(this.mBrightness);
     }
 
     fadein() {
