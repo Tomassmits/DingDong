@@ -5,6 +5,9 @@
 **/
 var buttonCallback;
 
+var minTimeBetween = 10000;
+var timeBetweenVariation = 5000;
+
 class Button {
     constructor() {
         this.mPin = -1;
@@ -21,7 +24,7 @@ class Button {
     }
 
     newButtonCallAfterRandom(level) {
-        var delay = Math.floor(Math.random() * 5000 ) + (10000 * level);
+        var delay = Math.floor(Math.random() * timeBetweenVariation ) + (minTimeBetween * level);
         console.log("MOCK:Button#nextButtonEvent in " + delay + "ms" );
         setTimeout(
             function(level, tick) {

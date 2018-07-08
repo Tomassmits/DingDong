@@ -27,22 +27,34 @@ buttonLed.setBrightness(config.ledBrightness);
 var startTick = 0;
 var endTick = 0;
 var eventId;
+var processing = false; // Whether we're processing a button event
+var suppressing = false; // Whether we're supressing successive events (so we're receiving events while we're still processing the previous one).
 
 // TODO: make sure that pressing the button multiple times in a row (so that the button gets triggered when the system is still processing the previous action) doesn't break things. Perhaps make the visual LED feedback wait at least for the process to finish (upload of image and all)?
 function onButtonPressed(level, tick) {
     if( level == 0 ) {
-        startTick = tick;
-        buttonLed.blink(config.minInterval, 400, 0, config.ledBrightness, config.ledBrightness);
+        if( ! processing ) {
+            processing = true;
+            suppressing = false;
+            startTick = tick;
+            buttonLed.blink(config.minInterval, 400, 0, config.ledBrightness, config.ledBrightness);
+            setTimeout( function() { processing = false }, config.minInterval );
 
-        eventId = backend.sendEvent('x');
-        console.log('onButtonPressed. EventID: ', eventId);
-        if( backend.getBellEnabled() === true ) bell.chime();
-        // TODO: get image from camera
-        // TODO: backend.sendImage(eventId, image);
+            eventId = backend.sendEvent('x');
+            console.log('onButtonPressed. EventID: ', eventId);
+            if( backend.getBellEnabled() === true ) bell.chime();
+            // TODO: get image from camera
+            // TODO: backend.sendImage(eventId, image);
+        } else {
+            suppressing = true;
+            console.log("Button is being pressed too quickly in succession.");
+        }
     } else {
-        console.log('onButtonReleased. EventID: ', eventId);
-        var duration = (tick >> 0) - (startTick >> 0);  // in microSeconds.
-        backend.setButtonDuration(eventId, duration);
+        if( ! suppressing ) {
+            console.log('onButtonReleased. EventID: ', eventId);
+            var duration = (tick >> 0) - (startTick >> 0);  // in microSeconds.
+            backend.setButtonDuration(eventId, duration);
+        }
     }
 }
 
