@@ -1,47 +1,36 @@
-var Gpio = require('pigpio').Gpio;
-
-var outLed;
 var doBlink = false;
 
 class Led {
     constructor() {
-        this.mPin = -1;
         this.mBrightness = 50;    // 50 %
     }
 
     setPin(pin) {
         this.mPin = pin;
-        outLed = new Gpio(pin, {mode: Gpio.OUTPUT})
+        console.log("MOCK::Led#setPin(" + pin + ")");
     }
 
     setBrightness(brightness) {
-        this.mBrightness = brightness;
-        outLed.pwmWrite(this.mBrightness);
+        console.log("MOCK::Led#setBrightness(" + brightness + ")");
     }
 
     fadein() {
-        var brightness = 0;
-        var fadeInterval = setInterval( function(aim) {
-            if( brightness > aim ) {
-                clearInterval(fadeInterval);
-            }
-            outLed.pwmWrite(brightness++);
-        }, 20, this.mBrightness);
+        console.log("MOCK::Led#fadein()");
     }
 
     blink(duration, speed, lowState, highState, leaveState) {
         var state = true;
         doBlink = true;
-        outLed.pwmWrite(lowState);
+        console.log("MOCK:Led#blink - LED state: " + lowState );
         var blinkInterval = setInterval( function() {
-            if( doBlink === true ) outLed.pwmWrite(state ? highState : lowState);
+            if( doBlink === true ) console.log("MOCK:Led#blink - LED state: " + (state ? highState : lowState) );
             state = !state;
         }, speed);
 
         setTimeout( function() {
             doBlink = false;
             clearInterval(blinkInterval);
-            outLed.pwmWrite(leaveState);
+            console.log("MOCK:Led#blink - LED state: " + leaveState );
         }, duration);
     }
 

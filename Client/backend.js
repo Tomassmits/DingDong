@@ -29,7 +29,12 @@ class Backend {
     }
 
     sendEvent(event) {
-        return this.mDbRef.child('events').push({'image' : false, 'timestamp': (new Date()).getTime()}).key;
+        return this.mDbRef.child('events').push(
+            {
+                'image' : false,
+                'timestamp': (new Date()).getTime(),
+                'pushDuration': -1
+            }).key;
     }
 
     setBellEnabled( enabled ) {
@@ -41,6 +46,19 @@ class Backend {
 
     getBellEnabled() {
         return this.mBellEnabled;
+    }
+
+    setButtonDuration(eventId, duration) {
+        this.mDbRef.child('events').child(eventId).update({"pushDuration" : duration});
+    }
+
+    sendImage(eventId, image) {
+        // TODO: send image (with eventId as its name)
+        // TODO: backend.setEventImageAvailable(eventId);
+    }
+
+    setEventImageAvailable(eventId) {
+        this.mDbRef.child('events').child(eventId).update({"image" : true});
     }
 }
 

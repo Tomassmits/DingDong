@@ -1,9 +1,21 @@
 console.log('Starting...');
-var backend = require('./backend.js');
-var button = require('./button.js')
-var buttonLed = require('./led.js')
-var bell = require('./bell.js')
 var config = require('./config.json');
+var backend = require('./backend.js');
+if( config.mock.button ) {
+    var button = require('./button_mock.js')
+} else {
+    var button = require('./button.js')
+}
+if( config.mock.led ) {
+    var buttonLed = require('./led_mock.js')
+} else {
+    var buttonLed = require('./led.js')
+}
+if( config.mock.bell ) {
+    var bell = require('./bell_mock.js')
+} else {
+    var bell = require('./bell.js')
+}
 
 backend.setDeviceId(config.deviceId);
 buttonLed.setPin(config.ledPin);
@@ -14,6 +26,8 @@ button.setCallback(onButtonPressed);
 
 backend.startListen();
 button.startListen();
+buttonLed.setBrightness(config.ledBrightness);
+//buttonLed.fadein()
 
 var startTick = 0;
 var endTick = 0;
@@ -23,24 +37,24 @@ var eventId;
 function onButtonPressed(level, tick) {
     if( level == 0 ) {
         startTick = tick;
-        buttonLed.blink(3000, 400, 0, 100, 100);
+        buttonLed.blink(3000, 400, 0, config.ledBrightness, config.ledBrightness);
 
         eventId = backend.sendEvent('x');
         console.log('onButtonPressed. EventID: ', eventId);
         if( backend.getBellEnabled() === true ) bell.chime();
         // TODO: get image from camera
-        // TODO: send image (with eventId as its name)
-        // TODO: backend.setEventImageAvailable(eventId);
+        // TODO: backend.sendImage(eventId, image);
     } else {
         console.log('onButtonReleased. EventID: ', eventId);
-        //buttonLed.setBrightness(100);
         var duration = (tick >> 0) - (startTick >> 0);  // in microSeconds.
-        // TODO: backend.setButtonDuration(eventId, duration);
+        backend.setButtonDuration(eventId, duration);
     }
 }
 
 process.on('SIGINT', function() {
     console.log("Caught interrupt signal");
 
+    buttonLed.turnOff();
+    bell.turnOff();
     process.exit();
 });

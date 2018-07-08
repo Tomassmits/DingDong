@@ -2,5 +2,11 @@
   "deviceId": "db-1",
   "buttonPin": 14,
   "ledPin": 15,
-  "bellPin" : 18
+  "bellPin" : 18,
+  "ledBrightness": 100,
+  "mock": {
+    "button": true,
+    "led": true,
+    "bell": true
+  }
 }
