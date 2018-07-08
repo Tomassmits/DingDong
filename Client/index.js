@@ -30,7 +30,6 @@ var eventId;
 var processing = false; // Whether we're processing a button event
 var suppressing = false; // Whether we're supressing successive events (so we're receiving events while we're still processing the previous one).
 
-// TODO: make sure that pressing the button multiple times in a row (so that the button gets triggered when the system is still processing the previous action) doesn't break things. Perhaps make the visual LED feedback wait at least for the process to finish (upload of image and all)?
 function onButtonPressed(level, tick) {
     if( level == 0 ) {
         if( ! processing ) {
