@@ -1,12 +1,11 @@
 {
+  "mock": true,
   "deviceId": "db-1",
-  "buttonPin": 14,
-  "ledPin": 15,
-  "bellPin" : 18,
+  "minInterval": 3000,
   "ledBrightness": 100,
-  "mock": {
-    "button": true,
-    "led": true,
-    "bell": true
+  "pins" : {
+    "button": 14,
+    "led": 15,
+    "bell": 18
   }
 }

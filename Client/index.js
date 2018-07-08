@@ -1,26 +1,20 @@
 console.log('Starting...');
 var config = require('./config.json');
 var backend = require('./backend.js');
-if( config.mock.button ) {
+if( config.mock ) {
     var button = require('./button_mock.js')
-} else {
-    var button = require('./button.js')
-}
-if( config.mock.led ) {
     var buttonLed = require('./led_mock.js')
-} else {
-    var buttonLed = require('./led.js')
-}
-if( config.mock.bell ) {
     var bell = require('./bell_mock.js')
 } else {
+    var button = require('./button.js')
+    var buttonLed = require('./led.js')
     var bell = require('./bell.js')
 }
 
 backend.setDeviceId(config.deviceId);
-buttonLed.setPin(config.ledPin);
-button.setPin(config.buttonPin);
-bell.setPin(config.bellPin);
+buttonLed.setPin(config.pins.led);
+button.setPin(config.pins.button);
+bell.setPin(config.pins.bell);
 
 button.setCallback(onButtonPressed);
 
@@ -37,7 +31,7 @@ var eventId;
 function onButtonPressed(level, tick) {
     if( level == 0 ) {
         startTick = tick;
-        buttonLed.blink(3000, 400, 0, config.ledBrightness, config.ledBrightness);
+        buttonLed.blink(config.minInterval, 400, 0, config.ledBrightness, config.ledBrightness);
 
         eventId = backend.sendEvent('x');
         console.log('onButtonPressed. EventID: ', eventId);
