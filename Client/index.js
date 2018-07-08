@@ -2,6 +2,7 @@ console.log('Starting...');
 var config = require('./config.json');
 var backend = require('./backend.js');
 if( config.mock ) {
+    console.log("MOCKING GPIO!");
     var button = require('./button_mock.js')
     var buttonLed = require('./led_mock.js')
     var bell = require('./bell_mock.js')
