@@ -1,4 +1,6 @@
 # DingDong
+> This project is still in its early stages. Most documentation is far from finished (or coherent), and the code might not work as expected.
+
 A Raspberry Pi operated doorbell.
 
 The project consists of a relatively simple hardware layout, and a RPi.
