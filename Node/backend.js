@@ -52,7 +52,10 @@ class Backend {
         this.mDbRef.child('events').child(deviceId).child(eventId).update({"pushDuration" : duration});
     }
 
-    sendImage(eventId, image) {
+    sendImage(eventId, imageUrl) {
+        var fileRef = this.storageRef.child("image.jpg");
+
+
         // TODO: send image (with eventId as its name)
         // TODO: backend.setEventImageAvailable(eventId);
     }

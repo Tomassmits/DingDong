@@ -3,6 +3,7 @@
   "deviceId": "db-1",
   "minInterval": 3000,
   "ledBrightness": 100,
+  "camurl" : "http://10.0.0.31/snap.jpeg",
   "pins" : {
     "button": 14,
     "led": 15,

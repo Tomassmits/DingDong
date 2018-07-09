@@ -11,6 +11,7 @@ if( config.mock ) {
     var buttonLed = require('./led.js')
     var bell = require('./bell.js')
 }
+var cam = require('./cam.js');
 
 backend.setDeviceId(config.deviceId);
 buttonLed.setPin(config.pins.led);
@@ -18,6 +19,7 @@ button.setPin(config.pins.button);
 bell.setPin(config.pins.bell);
 
 button.setCallback(onButtonPressed);
+cam.setCallback(onImageUploaded);
 
 backend.startListen();
 button.startListen();
@@ -42,8 +44,7 @@ function onButtonPressed(level, tick) {
             eventId = backend.sendEvent(config.deviceId);
             console.log('onButtonPressed. EventID: ', eventId);
             if( backend.getBellEnabled() === true ) bell.chime();
-            // TODO: get image from camera
-            // TODO: backend.sendImage(eventId, image);
+            cam.takeAndUploadSnap(config.camurl, config.deviceId, eventId);
         } else {
             suppressing = true;
             console.log("Button is being pressed too quickly in succession.");
@@ -55,6 +56,10 @@ function onButtonPressed(level, tick) {
             backend.setButtonDuration(config.deviceId, eventId, duration);
         }
     }
+}
+
+function onImageUploaded(eventId) {
+    backend.setEventImageAvailable(config.deviceId, eventId);
 }
 
 process.on('SIGINT', function() {
