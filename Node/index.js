@@ -52,7 +52,7 @@ function onButtonPressed(level, tick) {
         if( ! suppressing ) {
             console.log('onButtonReleased. EventID: ', eventId);
             var duration = (tick >> 0) - (startTick >> 0);  // in microSeconds.
-            backend.setButtonDuration(eventId, duration);
+            backend.setButtonDuration(config.deviceId, eventId, duration);
         }
     }
 }

@@ -29,9 +29,8 @@ class Backend {
     }
 
     sendEvent(deviceId) {
-        return this.mDbRef.child('events').push(
+        return this.mDbRef.child('events').child(deviceId).push(
             {
-                'deviceId' : deviceId,
                 'image' : false,
                 'timestamp': (new Date()).getTime(),
                 'pushDuration': -1
@@ -49,8 +48,8 @@ class Backend {
         return this.mBellEnabled;
     }
 
-    setButtonDuration(eventId, duration) {
-        this.mDbRef.child('events').child(eventId).update({"pushDuration" : duration});
+    setButtonDuration(deviceId, eventId, duration) {
+        this.mDbRef.child('events').child(deviceId).child(eventId).update({"pushDuration" : duration});
     }
 
     sendImage(eventId, image) {
@@ -58,8 +57,8 @@ class Backend {
         // TODO: backend.setEventImageAvailable(eventId);
     }
 
-    setEventImageAvailable(eventId) {
-        this.mDbRef.child('events').child(eventId).update({"image" : true});
+    setEventImageAvailable(deviceId, eventId) {
+        this.mDbRef.child('events').child(deviceId).child(eventId).update({"image" : true});
     }
 }
 
