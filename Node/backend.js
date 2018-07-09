@@ -28,9 +28,10 @@ class Backend {
         });
     }
 
-    sendEvent(event) {
+    sendEvent(deviceId) {
         return this.mDbRef.child('events').push(
             {
+                'deviceId' : deviceId,
                 'image' : false,
                 'timestamp': (new Date()).getTime(),
                 'pushDuration': -1

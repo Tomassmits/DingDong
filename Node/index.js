@@ -39,7 +39,7 @@ function onButtonPressed(level, tick) {
             buttonLed.blink(config.minInterval, 400, 0, config.ledBrightness, config.ledBrightness);
             setTimeout( function() { processing = false }, config.minInterval );
 
-            eventId = backend.sendEvent('x');
+            eventId = backend.sendEvent(config.deviceId);
             console.log('onButtonPressed. EventID: ', eventId);
             if( backend.getBellEnabled() === true ) bell.chime();
             // TODO: get image from camera
