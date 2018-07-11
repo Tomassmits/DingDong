@@ -27,7 +27,11 @@ class Backend {
     startListen() {
         console.log('Starting configuration listener.');
         this.mDbConfigRef.on('value', function (snap) {
-            instance.setBellEnabled( snap.val()['bell'] === true ? true : false );
+            if( snap.val() != null ) {
+                instance.setBellEnabled( snap.val()['bell'] === true ? true : false );
+            } else {
+                console.log("Bell configuration not found. Is the device configured properly?");
+            }
         });
     }
 
