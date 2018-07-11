@@ -19,17 +19,20 @@ class Backend {
     setDeviceId( id ) {
         console.log('Identifying with Firebase as device \'' + id + '\'.');
         this.mDeviceId = id
+        this.mDbDeviceRef = this.mDbRef.child('devices').child(id);
+        this.mDbEventsRef = this.mDbDeviceRef.child('events');
+        this.mDbConfigRef = this.mDbDeviceRef.child('config');
     }
 
     startListen() {
         console.log('Starting configuration listener.');
-        this.mDbRef.child('conf').child(this.mDeviceId).on('value', function (snap) {
+        this.mDbConfigRef.on('value', function (snap) {
             instance.setBellEnabled( snap.val()['bell'] === true ? true : false );
         });
     }
 
     sendEvent(deviceId) {
-        return this.mDbRef.child('events').child(deviceId).push(
+        return this.mDbEventsRef.push(
             {
                 'image' : false,
                 'timestamp': (new Date()).getTime(),
@@ -49,19 +52,11 @@ class Backend {
     }
 
     setButtonDuration(deviceId, eventId, duration) {
-        this.mDbRef.child('events').child(deviceId).child(eventId).update({"pushDuration" : duration});
-    }
-
-    sendImage(eventId, imageUrl) {
-        var fileRef = this.storageRef.child("image.jpg");
-
-
-        // TODO: send image (with eventId as its name)
-        // TODO: backend.setEventImageAvailable(eventId);
+        this.mDbEventsRef.child(eventId).update({"pushDuration" : duration});
     }
 
     setEventImageAvailable(deviceId, eventId) {
-        this.mDbRef.child('events').child(deviceId).child(eventId).update({"image" : true});
+        this.mDbEventsRef.child(eventId).update({"image" : true});
     }
 }
 
