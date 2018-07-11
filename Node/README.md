@@ -16,11 +16,17 @@ node index.js
 If you want the client to use GPIO, run it with root privileges (with `sudo`, for example) so it can access GPIO.
 
 
+# Hardware
+## Default pin configuration
+The default pinout is as follows:
 
-
+| pin | io | usage |
+| --- | --- | --- |
+| GPIO14 | in | Button (pull-up resister needed) |
+| GPIO15 | out | Button LED out (uses PWM to set LED brightness) |
+| GPIO18 | out | Bell out |
 
 # Notes
-
 
 ## Issues with npm
 After running into an error with npm ("npm ERR! Error: Method Not Allowed"):
