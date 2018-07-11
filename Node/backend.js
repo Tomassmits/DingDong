@@ -30,7 +30,7 @@ class Backend {
             if( snap.val() != null ) {
                 instance.setBellEnabled( snap.val()['bell'] === true ? true : false );
             } else {
-                console.log("Bell configuration not found. Is the device configured properly?");
+                console.log("Bell configuration not found. Please setup the config tree in the database.");
             }
         });
     }
