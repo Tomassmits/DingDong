@@ -33,12 +33,11 @@ class Cam {
     }
 
     uploadToFirebase(deviceId, eventId) {
-        var localFilename = eventId + '.png';
-        var remoteFile = bucket.file('snaps/' + localFilename);
+        var filename = eventId + '.png';
         console.log("Uploading snap...");
-        bucket.upload('snaps/' + localFilename, function(err, file) {
+        bucket.upload("snaps/"+filename, {destination: "snaps/"+filename}, function(err, file) {
           if (!err) {
-            console.log(localFilename + ' is now in your bucket.');
+            console.log(filename + ' is now in your bucket.');
             instance.mCallback(eventId);
           } else {
             console.log('Error uploading file: ' + err);
