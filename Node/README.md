@@ -5,13 +5,13 @@ sudo apt install nodejs npm pigpio
 ```
 In the `Client` directory, install npm dependencies. Be sure to grab some coffee after you've started this because if it runs (see Notes below), it will take quite some time to complete:
 ```
-sudo npm install
+npm install
 ```
 
 ## Running the client
 By default, the client is configured to mock all GPIO. You can simply run the client by calling:
 ```
-node index.jsgs
+node index.js
 ```
 If you want the client to use GPIO, run it with root privileges (with `sudo`, for example) so it can access GPIO.
 
