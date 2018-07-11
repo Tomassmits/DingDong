@@ -26,7 +26,7 @@ exports.testSend = functions.https.onRequest((request, response) => {
 });
 */
 
-exports.notifOnNewEvent = functions.database.ref('/events/{bellId}/{pushId}')
+exports.notifOnNewEvent = functions.database.ref('/devices/{bellId}/events/{pushId}')
     .onCreate((snapshot, context) => {
         var bellId = context.params.bellId;
         console.log("Sending notification for bell " + bellId);
@@ -40,7 +40,7 @@ exports.notifOnNewEvent = functions.database.ref('/events/{bellId}/{pushId}')
 
         var promiseList = [];
 
-        return snapshot.ref.parent.parent.parent.child('conf').child(bellId).child('subscriptions').once('value').then(
+        return snapshot.ref.parent.parent.child('subscriptions').once('value').then(
             function (snap) {
                 snap.forEach(function(child) {
                     var childKey = child.key;
